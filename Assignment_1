@@ -1,0 +1,59 @@
+********** Go to directory having all yaml files*******************
+>> cd /root/example-voting-app/k8s-specifications/
+**********Applying all the yaml files at once**********************
+>> kubectl apply -f .
+**********Info about all the pods, services, deployments etc. *****
+>> kubectl get all
+NAME                          READY   STATUS    RESTARTS   AGE
+pod/db-b54cd94f4-dd59r        1/1     Running   0          4h34m
+pod/redis-868d64d78-5vh4m     1/1     Running   0          4h34m
+pod/result-5d57b59f4b-vwmg2   1/1     Running   0          4h34m
+pod/vote-94849dc97-69gnv      1/1     Running   0          4h34m
+pod/worker-dd46d7584-f9lx5    1/1     Running   0          4h34m
+
+NAME             TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+service/db       ClusterIP   10.108.32.228    <none>        5432/TCP         4h34m
+service/redis    ClusterIP   10.101.229.152   <none>        6379/TCP         4h34m
+service/result   NodePort    10.96.65.123     <none>        5001:31003/TCP   4h34m
+service/vote     NodePort    10.105.206.72    <none>        5000:31002/TCP   4h34m
+
+NAME                     READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/db       1/1     1            1           4h34m
+deployment.apps/redis    1/1     1            1           4h34m
+deployment.apps/result   1/1     1            1           4h34m
+deployment.apps/vote     1/1     1            1           4h34m
+deployment.apps/worker   1/1     1            1           4h34m
+
+NAME                                DESIRED   CURRENT   READY   AGE
+replicaset.apps/db-b54cd94f4        1         1         1       4h34m
+replicaset.apps/redis-868d64d78     1         1         1       4h34m
+replicaset.apps/result-5d57b59f4b   1         1         1       4h34m
+replicaset.apps/vote-94849dc97      1         1         1       4h34m
+replicaset.apps/worker-dd46d7584    1         1         1       4h34m
+
+***********************************************************************
+-----> go to public Ip:port/s to give and view votes
+http://13.251.126.234:31002/ to cast vote
+http://13.251.126.234:31003/ to view results
+****** Now deleting pods one by one **********************************
+------> Deleting voting pod
+>> kubectl delete po vote-94849dc97-69gnv
+****** Both voting and result working as usual ***********************
+------> Since voting pod was re-spawned as soon as it was deleted, so application almost kept working
+>> kubectl delete po result-5d57b59f4b-vwmg2
+****** Again Both voting and result working as usual ***********************
+------> Since result pod was re-spawned as soon as it was deleted, so application almost kept working
+>> kubectl delete po redis-868d64d78-5vh4m
+****** Again Both voting and result working as usual ***********************
+------> Since redis pod was re-spawned as soon as it was deleted, so application almost kept working
+>> kubectl delete po worker-dd46d7584-f9lx5
+****** Again Both voting and result working as usual ***********************
+------> Since worker pod was re-spawned as soon as it was deleted, so application almost kept working
+>> kubectl delete po db-b54cd94f4-dd59r
+****** Here voting app is working but result not being captured ************
+------> Altough pod restarts, connection broken
+****** My workaround, in deployment make 2 replicas, so any time one is working
+
+
+
+
