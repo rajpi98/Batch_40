@@ -64,4 +64,4 @@ As soon as worker restarted it connected to both dB and redis to collect and pus
 ------> Altough the result not being connected since socket connection b/w dB pod and result pod 
 -------> so connected to old pod which doesn't exist and new pod respawned having the dB from which result pod is not connected
 ****** Workaround, Restart the Result app, so now it looks for connection and connect to the new dB pod
- 
+ ------> Altough old data is lost anyhow
