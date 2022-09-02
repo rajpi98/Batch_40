@@ -39,21 +39,27 @@ http://13.251.126.234:31003/ to view results
 ------> Deleting voting pod
 >> kubectl delete po vote-94849dc97-69gnv
 ****** Both voting and result working as usual ***********************
-------> Since voting pod was re-spawned as soon as it was deleted, so application almost kept working
+------> Since voting pod was re-spawned as soon as it was deleted, and its functionality is to capture data,so application almost kept working
+------> Deleting voting pod
 >> kubectl delete po result-5d57b59f4b-vwmg2
 ****** Again Both voting and result working as usual ***********************
-------> Since result pod was re-spawned as soon as it was deleted, so application almost kept working
+------> Since result pod was re-spawned as soon as it was deleted, and its functionality is to show data, so application almost kept working
+It takes data from dB which the container again starts doing
+------> Deleting redis pod
 >> kubectl delete po redis-868d64d78-5vh4m
 ****** Again Both voting and result working as usual ***********************
-------> Since redis pod was re-spawned as soon as it was deleted, so application almost kept working
+------> Since redis pod task is just to collect and push data to worker, 
+so application kept working since it was respawned and kept sending data to worker when restarted
+------> Deleting worker pod
 >> kubectl delete po worker-dd46d7584-f9lx5
 ****** Again Both voting and result working as usual ***********************
-------> Since worker pod was re-spawned as soon as it was deleted, so application almost kept working
+------> Since worker pod was re-spawned as soon as it was deleted, and it had already pushed data to dB after pulling from redis so application almost kept working
+As soon as worker restarted it connected to both dB and redis to collect and push data
+------> Deleting dB pod
 >> kubectl delete po db-b54cd94f4-dd59r
 ****** Here voting app is working but result not being captured ************
-------> Altough pod restarts, connection broken
-****** My workaround, in deployment make 2 replicas, so any time one is working
-
-
-
-
+------> Altough pod restarts, connection broken, worker also restarts since worker not able to connect to dB
+------> Altough the result not being connected since socket connection b/w dB pod and result pod 
+-------> so connected to old pod which doesn't exist and new pod respawned having the dB from which result pod is not connected
+****** Workaround, Restart the Result app, so now it looks for connection and connect to the new dB pod
+ 
