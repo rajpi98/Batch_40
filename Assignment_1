@@ -32,6 +32,8 @@ replicaset.apps/vote-94849dc97      1         1         1       4h34m
 replicaset.apps/worker-dd46d7584    1         1         1       4h34m
 
 ***********************************************************************
+----------My observations with commands-------------------------------
+
 -----> go to public Ip:port/s to give and view votes
 http://13.251.126.234:31002/ to cast vote
 http://13.251.126.234:31003/ to view results
