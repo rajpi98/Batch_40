@@ -1,0 +1,16 @@
+From inside the cluster try accessing the pod using curl<IP>:port
+
+  If not able to hit the pod, it means, port specified is wrong
+  
+  open the .yaml file
+  
+  see the field of port
+  
+  ports:
+ - port: 8000
+   protocol: TCP
+   targetPort: <>
+   
+   check for ports that have been mentioned, see if there is a mismatch
+   
+   no of ports can also be increased
