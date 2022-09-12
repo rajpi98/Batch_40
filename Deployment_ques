@@ -1,0 +1,12 @@
+We will use the rolling update feature available in deployments
+
+First we need to increase no of replicas atleast 2, Inside the .yaml file for deployment
+spec:
+  replicas: 2
+  
+Inside the .yaml file for deployment we will specify inside labels
+labels:
+        app: <app_name>
+        role: rolling-update
+        
+        so when we change the DI, pod updates one by one according to the new image
