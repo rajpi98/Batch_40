@@ -7,9 +7,9 @@ From inside the cluster try accessing the pod using curl<IP>:port
   see the field of port
   
   ports:
- - port: 8000
+ - port: <>
    protocol: TCP
-   targetPort: <>
+   targetPort: 8000    -----> any request to incoming port will be forwarded to pods listening on this port
    
    check for ports that have been mentioned, see if there is a mismatch
    
