@@ -1,0 +1,4 @@
+Damenon set ensures that a pod runs on each worker node, wheras RS only ensures that specied no of pods are running in total
+
+In applications where we need pods on each worker node we can use DS
+such an application maybe data collection /logs collection for each node
